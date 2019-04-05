@@ -1,5 +1,5 @@
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% SIST. REPR. CONHECIMENTO E RACIOCINIO - Exercício 1 - MiEI/3
+% SIST. REPR. CONHECIMENTO E RACIOCINIO - ExercÃ­cio 1 - MiEI/3
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % SICStus PROLOG: Declaracoes iniciais
@@ -9,7 +9,7 @@
 :- set_prolog_flag( unknown,fail ).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Definição de invariante
+% DefiniÃ§Ã£o de invariante
 
 :- op(900,xfy,'::').
 
@@ -17,7 +17,7 @@
 % Base de Conhecimento.
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Base de conhecimento com informação sobre servico, utente, consulta, medico
+% Base de conhecimento com informaÃ§Ã£o sobre servico, utente, consulta, medico
 
 :- dynamic(servico/4).
 :- dynamic(utente/4).
@@ -25,7 +25,7 @@
 :- dynamic(medico/4).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado servico : IdServ, Descrição, Instituição, Cidade -> { V, F }
+% Extensao do predicado servico : IdServ, DescriÃ§Ã£o, InstituiÃ§Ã£o, Cidade -> { V, F }
 
 servico(1,"Urgencia", "Hospital Sao Joao", "Porto").
 servico(2,"Terapia da Fala", "Hospital Sao Joao", "Porto").
@@ -93,7 +93,7 @@ medico(11,"Luis Braga", 34, 8).
 medico(12,"Joao Rodrigues",59,1).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensão do predicado comprimento : L , R -> {V,R}
+% ExtensÃ£o do predicado comprimento : L , R -> {V,R}
 comprimento([],0).
 comprimento([X|P],N) :- comprimento(P,G) ,
                         N is 1 + G.
@@ -103,7 +103,7 @@ remove(T) :- retract(T).
 inserir(E) :- assert(E).
 inserir(E) :- retract(E),!,fail.
 
-% Extensão do predicado que permite a evolucao do conhecimento
+% ExtensÃ£o do predicado que permite a evolucao do conhecimento
 evolucao(E) :- findall(I,+E::I,L),
                inserir(E),
                teste(L).
@@ -111,21 +111,21 @@ evolucao(E) :- findall(I,+E::I,L),
 teste([]).
 teste([X|Y]) :- X , teste(Y).
 
-% Extensão do predicado que permite o retrodecimento ou involu��o do
+% ExtensÃ£o do predicado que permite o retrodecimento ou involução do
 % conhecimento
 involucao(E) :- findall(I,-E::I,L),
 				 teste(L),
 				 remove(E).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Invariante estrutural para utente que não permite a inserção de
+% Invariante estrutural para utente que nÃ£o permite a inserÃ§Ã£o de
 % conhecimento repetido
 
 +utente(Id,_,_,_) :: (findall(Id,(utente(Id,_,_,_)),L),
 					 comprimento(L,1)).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Invariante estrutural para medico que não permite a inserção de
+% Invariante estrutural para medico que nÃ£o permite a inserÃ§Ã£o de
 % conhecimento repetido, nem associar servicos inexistentes
 
 +medico(IdM,_,_,IdSer) :: (findall(IdM,(medico(IdM,_,_,_)),L),
@@ -133,7 +133,7 @@ involucao(E) :- findall(I,-E::I,L),
                                            servico(IdSer, _, _, _)).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Invariante estrutural para servico que não permite a inserção de
+% Invariante estrutural para servico que nÃ£o permite a inserÃ§Ã£o de
 % conhecimento repetido
 
 +servico(Id,_,_,_) :: (findall(Id,(servico(Id,_,_,_)),L),
@@ -141,13 +141,13 @@ involucao(E) :- findall(I,-E::I,L),
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Invariante que certifica a existencia de um ID de utente, um ID
-% servico e de um ID de medico e que o dado servico perten�a ao m�dico
+% servico e de um ID de medico e que o dado servico pertença ao médico
 +consulta(_,IdUt,IdServ,IdM,_) :: (utente(IdUt,_,_,_),
 								  servico(IdServ,_,_,_),
 								  medico(IdM,_,_,IdServ)).
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Invariante estrutural para utente que não permite a remo��o de
-% conhecimento inexistente e, se existir, n�o pode estar associado a
+% Invariante estrutural para utente que nÃ£o permite a remoção de
+% conhecimento inexistente e, se existir, não pode estar associado a
 % consultas.
 -utente(IdU,_,_,_) :: (findall(IdU,(utente(IdU,_,_,_)),L),
                             comprimento(L,1),
@@ -165,7 +165,7 @@ involucao(E) :- findall(I,-E::I,L),
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Invariante estrutural para medico que n�o permite a remo��o de
+% Invariante estrutural para medico que não permite a remoção de
 % conhecimento inexistente, nem remover medicos associados a, pelo
 % menos, uma consulta.
 
@@ -206,7 +206,7 @@ procuraSINS(INSTITUICAO,R) :- findall((ID,DESCRICAO,INSTITUICAO,CIDADE),servico(
 procuraSCID(CIDADE,R) :- findall((ID,DESCRICAO,INSTITUICAO,CIDADE),servico(ID,DESCRICAO,INSTITUICAO,CIDADE),R).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Identificar consulta por critérios de selecção
+% Identificar consulta por critÃ©rios de selecÃ§Ã£o
 
 procuraCData(Data,R) :- findall((Data,IdUt,IdServ,IdM,Custo),consulta(Data,IdUt,IdServ,IdM,Custo),R).
 
@@ -221,7 +221,7 @@ procuraCCusto(Custo,R) :- findall((Data,IdUt,IdServ,IdM,Custo),consulta(Data,IdU
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Identificar medico por critérios de selecção
+% Identificar medico por critÃ©rios de selecÃ§Ã£o
 
 procuraMID(IdM,R) :- findall((IdM,Nome,Idade,IdSer),medico(IdM,Nome,Idade,IdSer),R).
 
@@ -234,7 +234,7 @@ procuraMServ(IdSer,R) :- findall((IdM,Nome,Idade,IdSer),medico(IdM,Nome,Idade,Id
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Identificar serviços prestados por instituição/cidade/datas/custo
+% Identificar serviÃ§os prestados por instituiÃ§Ã£o/cidade/datas/custo
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
 % Extensao do predicado servicoInst
@@ -256,7 +256,7 @@ servicoCusto(Custo, R) :- setof(Descricao, servicoCustoAux(Descricao,Custo) ,R).
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Identificar os utentes de um serviço/instituição
+% Identificar os utentes de um serviÃ§o/instituiÃ§Ã£o
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
 utenteSerAux(IdSer,IdU,Nome,Idade) :- (utente(IdU,Nome,Idade,_), consulta(_,IdU,IdSer,_,_)).
@@ -270,7 +270,7 @@ utentesInst(I,R) :- setof((IdU,Nome,Idade),utenteInstAux(I,IdU,Nome,Idade),R).
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Identificar serviços realizados por utente/instituição/cidade
+% Identificar serviÃ§os realizados por utente/instituiÃ§Ã£o/cidade
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
 serReaUtAux(IdUt,IdSer,Desc) :- (servico(IdSer,Desc,_,_),consulta(_,IdUt,IdSer,_,_)).
@@ -288,8 +288,8 @@ serReaCid(Cidade,R) :-
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Calcular o custo total dos cuidados de saúde por
-% utente/serviço/instituição/data
+% Calcular o custo total dos cuidados de saÃºde por
+% utente/serviÃ§o/instituiÃ§Ã£o/data
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
 somaC([], 0).
@@ -329,7 +329,7 @@ consultasMed(IdMed, R) :- findall(IdMed, consulta(_,_,_,IdMed,_), R2), inc(R2,R)
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% A quantas consultas é que um utente já usufruiu
+% A quantas consultas Ã© que um utente jÃ¡ usufruiu
 
 consultasUt(IdUt,R) :-
     findall(IdUt, consulta(_,IdUt,_,_,_),R2), inc(R2,R).
@@ -342,7 +342,7 @@ datasUt(IdUt,R) :-
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Ganho de um médico num determinado dia
+% Ganho de um mÃ©dico num determinado dia
 
 ganhoMedDia(IdMed,Data,R) :-
     findall(Custo, consulta(Data,_,_,IdMed,Custo),R2), somaC(R2,R).
