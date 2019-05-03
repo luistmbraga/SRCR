@@ -4,3 +4,7 @@ Repositório para os exercícios de grupo da UC SRCR
 
 
 Nota: valores
+
+Comentários:
+ 
+ A estrutura usada no segundo relatório é a recomendada para os relatórios da disciplina.
