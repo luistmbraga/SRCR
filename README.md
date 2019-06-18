@@ -17,3 +17,10 @@ Nota: valores
 
 
 Este ano não houve 3º trabalho.
+
+
+Notas: 
+
+1º Trabalho - 16 
+
+2º Traballho- 12
